@@ -1,0 +1,54 @@
+version: 2.1
+
+description:
+  This orb enables you to execute TestCraft test automation scenarios and view their results through CircleCI’s CI/CD platform.
+
+
+# This information will be displayed in the orb registry and is not mandatory.
+display:
+  home_url: "https://www.testcraft.io/"
+  source_url: "https://www.github.com/EXAMPLE_ORG/EXAMPLE_PROJECT"
+
+executors:
+  node:
+    description: The docker container to run node commands and  packages
+    docker:
+      - image: circleci/node:10.17.0
+
+jobs:
+  executor: node
+  parameters:
+    user_mail:
+      description: your user mail
+      type: string
+    auth_token:
+      description: Unique identifier of the organization. Can be retrieved from the CI/CD integration page in any suite in your TestCrafts account
+      type: string
+    project:
+      description: The name of the project that contains the test suite your test suite
+      type: string
+    version:
+       description: the projects version
+       type: string
+       default: "Base"
+    suite:
+        description: The suites' name
+        type: string
+    platform:
+        description: The platforms name where to run the test
+        type: string
+    environment:
+        description: The environment name
+        type: string
+    steps:
+      - checkout
+      - run:
+          name: install tc-cli
+          command: npm install -g tc-cli
+      - run:
+          name: run suite
+          command: |
+            tc-cli rn -u  << parameters.user_mail >> -t  << parameters.auth_token >> -p << parameters.project >> -v << parameters.version >> -s << parameters.suite >> -l << parameters.platform >> -e << parameters.environment >>
+
+
+
