@@ -48,7 +48,7 @@ jobs:
       - run:
           name: run suite
           command: |
-            tc-cli rn -u  << parameters.user_mail >> -t  << parameters.auth_token >> -p << parameters.project >> -v << parameters.version >> -s << parameters.suite >> -l << parameters.platform >> -e << parameters.environment >>
+            tc-cli run -u  << parameters.user_mail >> -t  << parameters.auth_token >> -p << parameters.project >> -v << parameters.version >> -s << parameters.suite >> -l << parameters.platform >> -e << parameters.environment >>
 
 
 
