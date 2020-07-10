@@ -22,7 +22,8 @@ jobs:
           type: string
         auth_token:
           description: Unique identifier of the organization. Can be retrieved from the CI/CD integration page in any suite in your TestCrafts account
-          type: string
+          type: env_var_name
+          default: AUTH_TOKEN
         project:
           description: The name of the project that contains the test suite your test suite
           type: string
