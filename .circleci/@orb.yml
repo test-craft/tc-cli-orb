@@ -9,15 +9,13 @@ display:
   home_url: "https://www.testcraft.io/"
   source_url: "https://github.com/test-craft/tc-cli-orb"
 
-executors:
-  node:
-    description: The docker container to run node commands and  packages
-    docker:
-      - image: circleci/node:10.17.0
+orbs:
+  node: circleci/node@3.0.1
 
 jobs:
     run:
-      executor: node
+      docker: 
+        - image: 'cimg/base:stable'
       parameters:
         user_mail:
           description: your user mail
@@ -42,6 +40,9 @@ jobs:
             description: The environment name
             type: string
       steps:
+        - node/install:
+            install-yarn: true
+            node-version: latest
         - run:
             name: install tc-cli
             command: sudo npm install -g tc-cli
