@@ -1,0 +1,31 @@
+version: 2.1
+
+orbs:
+  testcraft: testcraft/testcraft@dev:0.0.1
+
+workflows:
+    commit:
+      jobs:
+        - testcraft/run:
+            user_mail: ${user_mail}
+            platform: ${platform}
+            project: ${project}
+            suite: ${suite}
+            environment: ${environment}
+    # This job will be scheduled to run every day at 12:00am UTC
+    nightly:
+      triggers:
+        - schedule:
+            cron: "0 0 * * *"
+            filters:
+              branches:
+                only:
+                  - master
+      # Executes TestCraft scripts based on the parameters stored in CircleCI's environmental variables. Steps to setup env var in a CircleCI project: https://circleci.com/docs/2.0/env-vars/#setting-an-environment-variable-in-a-project
+      jobs:
+        - testcraft/run:
+            user_mail: ${user_mail}
+            platform: ${platform}
+            project: ${project}
+            suite: ${suite}
+            environment: ${environment}

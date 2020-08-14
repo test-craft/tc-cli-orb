@@ -1,0 +1,67 @@
+version: 2.1
+
+description:
+  This orb enables you to execute TestCraft test automation scenarios and view their results through CircleCI’s CI/CD platform.
+
+display:
+  home_url: "https://www.testcraft.io/"
+  source_url: "https://github.com/test-craft/tc-cli-orb"
+
+jobs:
+    run:
+      description: Runs TestCraft cli
+      parameters:
+        tag:
+          default: '13.0.1'
+          description: Pick a specific cimg/node image version tag-  https://hub.docker.com/r/cimg/node
+          type: string
+        user_mail:
+          description: Your user mail
+          type: string
+        auth_token:
+          description: The Unique identifier of your organization. Can be retrieved from the CI/CD integration page in any suite in your TestCraft account
+          type: env_var_name
+          default: AUTH_TOKEN
+        project:
+          description: The Project's name that contains your test suite
+          type: string
+        version:
+          description: The Project's version
+          type: string
+          default: "Base"
+        suite:
+          description: The Suite's name
+          type: string
+        platform:
+          description: The Platform's name where to run the test
+          type: string
+        environment:
+          description: The Environment's name
+          type: string
+      docker: 
+        - image: 'circleci/node:<<parameters.tag>>'
+      steps:
+        - checkout
+        - run:
+            name: install tc-cli
+            command: sudo npm install -g tc-cli
+        - run:
+            name: run suite
+            command: |
+              tc-cli run -u  "<< parameters.user_mail >>" -t "${<< parameters.auth_token >>}" -p "<< parameters.project >>" -v "<< parameters.version >>" -s "<< parameters.suite >>" -l "<< parameters.platform >>" -e "<< parameters.environment >>"
+examples:
+  tc_test:
+    description: Executes TestCraft scripts based on the parameters stored in CircleCI's environmental variables. Steps to setup env var in a CircleCI project - https://circleci.com/docs/2.0/env-vars/#setting-an-environment-variable-in-a-project
+    usage:
+      version: 2.1
+      orbs:
+        testcraft: testcraft/testcraft@volatile
+      workflows:
+        basic_workflow:
+          jobs:
+            - testcraft/run:
+                user_mail: ${user_mail}
+                platform: ${platform}
+                project: ${project}
+                suite: ${suite}
+                environment: ${environment}
