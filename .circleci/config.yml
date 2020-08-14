@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  testcraft: testcraft/testcraft@dev:0.0.1
+  testcraft: testcraft/testcraft@volatile
 
 workflows:
     commit:
