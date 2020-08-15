@@ -1,7 +1,7 @@
 version: 2.1
 
 description:
-  This orb enables you to execute TestCraft test automation scenarios and view their results through CircleCI’s CI/CD platform.
+  Trigger TestCraft’s automated Selenium-based tests across your web browsers and environments, and view results on CircleCI’s CI/CD platform.
 
 display:
   home_url: "https://www.testcraft.io/"
